@@ -60,34 +60,6 @@ namespace ConfigTools
             return dt;
         }
 
-        public void ExportXmlFile(string filepath, DataTable dt, int firstrow)
-        {
-            using (FileStream fs = new FileStream(filepath, FileMode.Create, FileAccess.Write))
-            {
-                XmlWriterSettings setting = new XmlWriterSettings();
-                setting.Indent = true;
-                setting.Encoding = new UTF8Encoding(false);
-                setting.NewLineChars = Environment.NewLine;
-
-                using (XmlWriter xw = XmlWriter.Create(fs, setting))
-                {
-                    xw.WriteStartDocument(true);
-                    xw.WriteStartElement("datas");
-                    for (int i = firstrow; i < dt.Rows.Count; i++)
-                    {
-                        xw.WriteStartElement("data");
-                        for (int j = 0; j < dt.Columns.Count; j++)
-                        {
-                            xw.WriteAttributeString(dt.Columns[j].ToString(), dt.Rows[i].ItemArray[j].ToString());
-                        }
-                        xw.WriteEndElement();
-                    }
-                    xw.WriteEndElement();
-                    xw.WriteEndDocument();
-                }
-            }
-        }
-
         public void ExportTxtFile(string filepath, DataTable dt, int firstrow)
         {
             using (FileStream fs = new FileStream(filepath, FileMode.Create, FileAccess.Write))
@@ -118,11 +90,11 @@ namespace ConfigTools
 
         public bool IsExportField(string key, DataTable dt, int col)
         {
-            if (string.Compare(dt.Rows[3].ItemArray[col].ToString(), "all", true) == 0)
+            if (String.Compare(dt.Rows[3].ItemArray[col].ToString(), "all", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 return true;
             }
-            if (string.Compare(dt.Rows[3].ItemArray[col].ToString(), key, true) == 0)
+            if (String.Compare(dt.Rows[3].ItemArray[col].ToString(), key, StringComparison.OrdinalIgnoreCase) == 0)
             {
                 return true;
             }

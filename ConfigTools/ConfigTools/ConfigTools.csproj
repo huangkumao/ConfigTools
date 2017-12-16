@@ -66,6 +66,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CfgHelper.cs" />
+    <Compile Include="CodeHelper.cs" />
     <Compile Include="ExcelHelper.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
@@ -73,6 +75,7 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="MetaHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Main.resx">
