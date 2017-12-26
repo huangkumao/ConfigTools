@@ -20,11 +20,11 @@ namespace ConfigTools
         [STAThread]
         static void Main()
         {
-            AllocConsole();
+            //AllocConsole();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Main());
-            FreeConsole();
+            //FreeConsole();
         }
     }
 }

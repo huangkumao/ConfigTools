@@ -208,7 +208,7 @@
             // 
             this.rbCSCode.AutoSize = true;
             this.rbCSCode.Enabled = false;
-            this.rbCSCode.Location = new System.Drawing.Point(127, 98);
+            this.rbCSCode.Location = new System.Drawing.Point(193, 98);
             this.rbCSCode.Name = "rbCSCode";
             this.rbCSCode.Size = new System.Drawing.Size(35, 16);
             this.rbCSCode.TabIndex = 8;
@@ -221,7 +221,7 @@
             // 
             this.rbTSCode.AutoSize = true;
             this.rbTSCode.Enabled = false;
-            this.rbTSCode.Location = new System.Drawing.Point(193, 98);
+            this.rbTSCode.Location = new System.Drawing.Point(127, 98);
             this.rbTSCode.Name = "rbTSCode";
             this.rbTSCode.Size = new System.Drawing.Size(35, 16);
             this.rbTSCode.TabIndex = 9;

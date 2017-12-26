@@ -13,9 +13,14 @@ namespace ConfigTools
 {
     public class ExcelHelper
     {
-        IWorkbook hssfworkbook;
-        public DataTable ImportExcelFile(string filePath)
+        public static int sCommentRow = 0;//字段注释 0
+        public static int sFieldRow = 1;//字段名字 1
+        public static int sTypeRow = 2;//字段类型 2
+        public static int sExportRow = 3;//导出类型 3
+
+        public static DataTable ImportExcelFile(string filePath)
         {
+            IWorkbook hssfworkbook;
             try
             {
                 using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
@@ -57,109 +62,39 @@ namespace ConfigTools
                 }
                 dt.Rows.Add(dr);
             }
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    Console.Write(@"|" + dt.Rows[i].ItemArray[j]);
+                }
+                Console.WriteLine();
+            }
+
             return dt;
         }
 
-        public void ExportTxtFile(string filepath, DataTable dt, int firstrow)
+        public static TableMeta ParseTableMeta(string pFileName, DataTable pDT, ExportCfgType pExpType)
         {
-            using (FileStream fs = new FileStream(filepath, FileMode.Create, FileAccess.Write))
+            TableMeta meta = new TableMeta {TableName = pFileName };
+            //字段注释 0
+            //字段名字 1
+            //字段类型 2
+            //导出类型 3
+            for (int i = 0; i < pDT.Columns.Count; i++)
             {
-                StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
-                for (int i = firstrow; i < dt.Rows.Count; i++)
+                TableField field = new TableField
                 {
-                    for (int j = 0; j < dt.Columns.Count; j++)
-                    {
-                        if (j == dt.Columns.Count - 1)
-                        {
-                            sw.WriteLine(dt.Rows[i].ItemArray[j].ToString());
-                        }
-                        else
-                        {
-                            sw.Write(dt.Rows[i].ItemArray[j].ToString() + "\t");
-                        }
-                    }
-                }
-                sw.Close();
+                    mComment = @"//" + pDT.Rows[sCommentRow].ItemArray[i],
+                    mFieldName = pDT.Rows[sFieldRow].ItemArray[i].ToString(),
+                    mTypeName = pDT.Rows[sTypeRow].ItemArray[i].ToString(),
+                    mExportType = pDT.Rows[sExportRow].ItemArray[i].ToString()
+                }; 
+
+                meta.Fields.Add(field);
             }
+            return meta;
         }
-
-        public bool IsExportFile(string key, DataTable dt)
-        {
-            return IsExportField(key, dt, 0);
-        }
-
-        public bool IsExportField(string key, DataTable dt, int col)
-        {
-            if (String.Compare(dt.Rows[3].ItemArray[col].ToString(), "all", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                return true;
-            }
-            if (String.Compare(dt.Rows[3].ItemArray[col].ToString(), key, StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                return true;
-            }
-            return false;
-        }
-
-//        internal TableMeta ParseTableMeta(string filename, DataTable dt, string cmp)
-//        {
-//            TableMeta meta = new TableMeta();
-//            meta.TableName = filename;
-//            //第0行注释 第一行name 第二行type
-//            for (int i = 0; i < dt.Columns.Count; i++)
-//            {
-//                if (!IsExportField(cmp, dt, i)) { continue; }
-//                TableField field = new TableField();
-//                field.fieldName = dt.Rows[1].ItemArray[i].ToString();
-//                field.typeName = dt.Rows[2].ItemArray[i].ToString();
-//                if (field.typeName == "int") { field.fieldType = TableFieldType.IntField; }
-//                else if (field.typeName == "float") { field.fieldType = TableFieldType.FloatField; }
-//                else if (field.typeName == "string") { field.fieldType = TableFieldType.StringField; }
-//                else if (field.typeName == "int+") { field.fieldType = TableFieldType.IntList; }
-//                else if (field.typeName == "float+") { field.fieldType = TableFieldType.FloatList; }
-//                else if (field.typeName == "string+") { field.fieldType = TableFieldType.StringList; }
-//                else if (field.typeName[field.typeName.Length - 1] == '+') { field.fieldType = TableFieldType.StructList; }
-//                else { field.fieldType = TableFieldType.StructField; }
-//                meta.Fields.Add(field);
-//            }
-//            return meta;
-//        }
-//
-//        public void ExportTxtFileEx(string filepath, DataTable dt, string key, int[] ignorerows)
-//        {
-//            using (FileStream fs = new FileStream(filepath, FileMode.Create, FileAccess.Write))
-//            {
-//                StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
-//                for (int i = 0; i < dt.Rows.Count; i++)
-//                {
-//                    if (ignorerows.Contains(i)) continue;
-//                    for (int j = 0; j < dt.Columns.Count; j++)
-//                    {
-//                        if (!IsExportField(key, dt, j))
-//                        {
-//                            if (j == dt.Columns.Count - 1)
-//                            {
-//                                sw.Write("\n");
-//                            }
-//                            continue;
-//                        }
-//                        if (j == dt.Columns.Count - 1)
-//                        {
-//                            sw.WriteLine("\t" + dt.Rows[i].ItemArray[j].ToString());
-//                        }
-//                        else if (j == 0)
-//                        {
-//                            sw.Write(dt.Rows[i].ItemArray[j].ToString());
-//                        }
-//                        else
-//                        {
-//                            sw.Write("\t" + dt.Rows[i].ItemArray[j].ToString());
-//                        }
-//                    }
-//                }
-//                sw.Close();
-//            }
-//        }
-
     }
 }
