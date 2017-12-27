@@ -21,8 +21,6 @@ namespace ConfigTools
     //导出配置类型
     public enum ExportCfgType
     {
-        NULL,   //不导出配置
-        All,    //所有
         Client, //仅客户端
         Server  //仅服务器
     }
@@ -30,7 +28,6 @@ namespace ConfigTools
     //导出代码类型
     public enum ExportCodeType
     {
-        NULL,       //不导出代码
         CSharp,
         TypeScript
     }

@@ -21,9 +21,13 @@ namespace ConfigTools
         //配置路径
         public static string sCfgPath = "";
         //导出代码类型
-        public static ExportCodeType sExportCodeType = ExportCodeType.NULL;
+        public static ExportCodeType sExportCodeType = ExportCodeType.CSharp;
         //导出配置类型
-        public static ExportCfgType sExportCfgType = ExportCfgType.NULL;
+        public static ExportCfgType sExportCfgType = ExportCfgType.Server;
+        //是否导出代码
+        public static bool sCanExportCode = true;
+        //是否导出配置
+        public static bool sCanExportCfg = true;
 
         public static List<ExcelFileInfo> sExcelFileList = new List<ExcelFileInfo>(64);
 
@@ -40,7 +44,7 @@ namespace ConfigTools
             mCodeOutPath.Text = sCodePath;
             mCfgOutPath.Text = sCfgPath;
 
-            if (sExportCodeType == ExportCodeType.NULL)
+            if (!sCanExportCode)
             {
                 cbGenCode.Checked = false;
                 rbCSCode.Enabled = false;
@@ -53,7 +57,7 @@ namespace ConfigTools
                 rbTSCode.Enabled = true;
             }
 
-            if (sExportCfgType == ExportCfgType.NULL)
+            if (!sCanExportCfg)
             {
                 cbGenCfg.Checked = false;
                 rbServer.Enabled = false;
@@ -84,7 +88,7 @@ namespace ConfigTools
         //选择代码目录
         private void btnCodePath_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog _fbd = new FolderBrowserDialog { Description = "选择代码目录" };
+            FolderBrowserDialog _fbd = new FolderBrowserDialog {Description = "选择代码目录"};
             if (_fbd.ShowDialog() == DialogResult.OK)
             {
                 sCodePath = _fbd.SelectedPath;
@@ -95,7 +99,7 @@ namespace ConfigTools
         //选择配置表目录
         private void btnCfgPath_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog _fbd = new FolderBrowserDialog { Description = "选择配置表目录" };
+            FolderBrowserDialog _fbd = new FolderBrowserDialog {Description = "选择配置表目录"};
             if (_fbd.ShowDialog() == DialogResult.OK)
             {
                 sCfgPath = _fbd.SelectedPath;
@@ -107,14 +111,15 @@ namespace ConfigTools
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             RefreshExcels();
+            AddLog("", false);
         }
 
         //是否生成代码
         private void cbGenCode_CheckedChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("是否生成代码");
             if (cbGenCode.Checked)
             {
+                sCanExportCode = false;
                 rbCSCode.Enabled = true;
                 rbTSCode.Enabled = true;
                 if (sExportCodeType == ExportCodeType.CSharp)
@@ -124,6 +129,7 @@ namespace ConfigTools
             }
             else
             {
+                sCanExportCode = true;
                 rbCSCode.Enabled = false;
                 rbTSCode.Enabled = false;
             }
@@ -132,9 +138,9 @@ namespace ConfigTools
         //是否生成配置
         private void cbGenCfg_CheckedChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("是否生成配置");
             if (cbGenCfg.Checked)
             {
+                sCanExportCfg = true;
                 rbServer.Enabled = true;
                 rbClient.Enabled = true;
                 if (sExportCfgType == ExportCfgType.Client)
@@ -145,7 +151,8 @@ namespace ConfigTools
             }
             else
             {
-                rbServer.Enabled = false;                                  
+                sCanExportCfg = false;
+                rbServer.Enabled = false;
                 rbClient.Enabled = false;
             }
         }
@@ -154,24 +161,28 @@ namespace ConfigTools
         private void rbCSCode_CheckedChanged(object sender, EventArgs e)
         {
             sExportCodeType = ExportCodeType.CSharp;
+            RegistryHelper.SaveData();
         }
 
         //代码类型TS
         private void rbTSCode_CheckedChanged(object sender, EventArgs e)
         {
             sExportCodeType = ExportCodeType.TypeScript;
+            RegistryHelper.SaveData();
         }
 
         //生成客户端配置
         private void rbClient_CheckedChanged(object sender, EventArgs e)
         {
             sExportCfgType = ExportCfgType.Client;
+            RegistryHelper.SaveData();
         }
 
         //生成服务器配置
         private void rbServer_CheckedChanged(object sender, EventArgs e)
         {
             sExportCfgType = ExportCfgType.Server;
+            RegistryHelper.SaveData();
         }
 
         //全部选择
@@ -221,6 +232,8 @@ namespace ConfigTools
         //生成按钮
         private void btnGen_Click(object sender, EventArgs e)
         {
+            ShowInfo();
+
             for (int i = 0; i < clbCfgFiles.Items.Count; i++)
             {
                 if (clbCfgFiles.GetItemCheckState(i) != CheckState.Checked)
@@ -232,12 +245,57 @@ namespace ConfigTools
                 var meta = ExcelHelper.ParseTableMeta(excelFileInfo.Name, dt, ExportCfgType.Client);
 
                 //生成代码
-                CodeHelper.GenCode(meta, sCodePath, sExportCodeType, sExportCfgType);
+                if (sCanExportCode)
+                {
+                    try
+                    {
+                        AddLog($"开始生成[ {meta.TableName} ]代码");
+                        CodeHelper.GenCode(meta, sCodePath, sExportCodeType, sExportCfgType);
+                        AddLog($"生成[ {meta.TableName} ]代码成功");
+                    }
+                    catch(Exception exp)
+                    {
+                        AddLog($"生成[{meta.TableName}]代码出现异常 => {exp.Message}");
+                    }
+                    
+                }
 
                 //生成配置
-                CfgHelper.GenCfg(dt, sCfgPath, meta, sExportCfgType);
+                if (sCanExportCfg)
+                {
+                    try
+                    {
+                        AddLog($"开始生成[ {meta.TableName} ]配置");
+                        CfgHelper.GenCfg(dt, sCfgPath, meta, sExportCfgType);
+                        AddLog($"生成[ {meta.TableName} ]配置成功");
+                    }
+                    catch (Exception exp)
+                    {
+                        AddLog($"生成[{meta.TableName}]配置出现异常 => {exp.Message}");
+                    }
+                }
+                
+                AddLog("");
             }
             RegistryHelper.SaveData();
+        }
+
+        public void ShowInfo()
+        {
+            AddLog("",false);
+            AddLog($"是否导出配置 [{sCanExportCfg}]");
+            AddLog($"配置类型 [{sExportCfgType}]");
+            AddLog($"是否导出代码 [{sCanExportCode}]");
+            AddLog($"代码类型 [{sExportCodeType}]");
+            AddLog("");
+        }
+
+        public void AddLog(string pLog, bool pAppend = true)
+        {
+            if (pAppend)
+                textLog.AppendText(pLog + "\r\n");
+            else
+                textLog.Text = pLog;
         }
     }
 }

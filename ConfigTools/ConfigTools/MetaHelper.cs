@@ -41,7 +41,7 @@ namespace ConfigTools
 
         public bool IsExportField(ExportCfgType pExpType)
         {
-            if (pExpType == ExportCfgType.All || mExportType == "all")
+            if (mExportType == "all")
                 return true;
 
             if (pExpType == ExportCfgType.Client && mExportType == "client")
@@ -64,7 +64,7 @@ namespace ConfigTools
 
         public bool CheckTypeIsMap()
         {
-            return Fields[0].mFieldName == "ID";
+            return Fields[0].mFieldName.ToUpper() == "ID";
         }
     }
 }

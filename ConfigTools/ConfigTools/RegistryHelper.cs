@@ -10,15 +10,19 @@ namespace ConfigTools
     public class RegistryData
     {
         //Excel路径
-        public string mExcelPath = @"c:\ExcelPath\";
+        public string mExcelPath = @"c:\";
         //代码路径
-        public string mCodePath = @"c:\CodePath\";
+        public string mCodePath = @"c:\";
         //配置路径
-        public string mCfgPath = @"c:\CfgPath\";
+        public string mCfgPath = @"c:\";
         //导出代码类型
         public ExportCodeType mExportCodeType = ExportCodeType.TypeScript;
         //导出配置类型
         public ExportCfgType mExportCfgType = ExportCfgType.Client;
+        //是否导出代码
+        public static bool mCanExportCode = true;
+        //是否导出配置
+        public static bool mCanExportCfg = true;
 
         public void GetData()
         {
@@ -27,6 +31,8 @@ namespace ConfigTools
             Main.sCfgPath = mCfgPath;
             Main.sExportCodeType = mExportCodeType;
             Main.sExportCfgType = mExportCfgType;
+            Main.sCanExportCode = mCanExportCode;
+            Main.sCanExportCfg = mCanExportCfg;
         }
 
         public void SetData()
@@ -36,6 +42,8 @@ namespace ConfigTools
             mCfgPath = Main.sCfgPath;
             mExportCodeType = Main.sExportCodeType;
             mExportCfgType = Main.sExportCfgType;
+            mCanExportCode = Main.sCanExportCode;
+            mCanExportCfg = Main.sCanExportCfg;
         }
     }
 

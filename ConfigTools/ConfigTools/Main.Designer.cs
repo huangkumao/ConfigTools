@@ -40,7 +40,7 @@
             this.mCodeOutPath = new System.Windows.Forms.TextBox();
             this.mExcelPath = new System.Windows.Forms.TextBox();
             this.clbCfgFiles = new System.Windows.Forms.CheckedListBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textLog = new System.Windows.Forms.TextBox();
             this.cbGenCode = new System.Windows.Forms.CheckBox();
             this.cbGenCfg = new System.Windows.Forms.CheckBox();
             this.rbCSCode = new System.Windows.Forms.RadioButton();
@@ -68,7 +68,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.LightCoral;
+            this.label2.BackColor = System.Drawing.Color.Turquoise;
             this.label2.Location = new System.Drawing.Point(28, 34);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(83, 12);
@@ -78,7 +78,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.LightCoral;
+            this.label3.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.label3.Location = new System.Drawing.Point(16, 58);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(95, 12);
@@ -105,12 +105,13 @@
             // 
             // btnRefresh
             // 
+            this.btnRefresh.BackColor = System.Drawing.Color.AntiqueWhite;
             this.btnRefresh.Location = new System.Drawing.Point(655, 16);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(57, 30);
+            this.btnRefresh.Size = new System.Drawing.Size(57, 54);
             this.btnRefresh.TabIndex = 9;
             this.btnRefresh.Text = "刷新";
-            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.UseVisualStyleBackColor = false;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnCfgPath
@@ -174,13 +175,13 @@
             this.clbCfgFiles.Size = new System.Drawing.Size(266, 364);
             this.clbCfgFiles.TabIndex = 4;
             // 
-            // textBox1
+            // textLog
             // 
-            this.textBox1.Location = new System.Drawing.Point(283, 158);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(437, 364);
-            this.textBox1.TabIndex = 5;
+            this.textLog.Location = new System.Drawing.Point(283, 158);
+            this.textLog.Multiline = true;
+            this.textLog.Name = "textLog";
+            this.textLog.Size = new System.Drawing.Size(437, 364);
+            this.textLog.TabIndex = 5;
             // 
             // cbGenCode
             // 
@@ -232,12 +233,13 @@
             // 
             // btnGen
             // 
+            this.btnGen.BackColor = System.Drawing.Color.MediumSpringGreen;
             this.btnGen.Location = new System.Drawing.Point(283, 99);
             this.btnGen.Name = "btnGen";
             this.btnGen.Size = new System.Drawing.Size(428, 46);
             this.btnGen.TabIndex = 10;
             this.btnGen.Text = "生成数据";
-            this.btnGen.UseVisualStyleBackColor = true;
+            this.btnGen.UseVisualStyleBackColor = false;
             this.btnGen.Click += new System.EventHandler(this.btnGen_Click);
             // 
             // btnAllCheck
@@ -309,7 +311,7 @@
             this.Controls.Add(this.rbCSCode);
             this.Controls.Add(this.cbGenCfg);
             this.Controls.Add(this.cbGenCode);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textLog);
             this.Controls.Add(this.clbCfgFiles);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -339,7 +341,7 @@
         private System.Windows.Forms.TextBox mCfgOutPath;
         private System.Windows.Forms.TextBox mCodeOutPath;
         private System.Windows.Forms.CheckedListBox clbCfgFiles;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textLog;
         private System.Windows.Forms.CheckBox cbGenCode;
         private System.Windows.Forms.CheckBox cbGenCfg;
         private System.Windows.Forms.RadioButton rbCSCode;

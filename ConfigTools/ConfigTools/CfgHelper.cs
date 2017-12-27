@@ -1,10 +1,7 @@
-﻿#region Using
-
+﻿
 using System.Data;
 using System.IO;
 using System.Text;
-
-#endregion
 
 namespace ConfigTools
 {
@@ -13,8 +10,8 @@ namespace ConfigTools
         public static string JsonHead = "{";
         public static string JsonTail = "}";
 
-        public static string JsonDataBegin = "{";
-        public static string JsonDataEnd = "}";
+        public static string JsonDataBegin = @"  {";
+        public static string JsonDataEnd = @"   }";
 
         public static string JsonDataName_1 = "  \"mDataMap\":{"; //以Map形式保存
         public static string JsonDataName_2 = "  \"mDataList\":["; //以List形式保存
@@ -33,7 +30,7 @@ namespace ConfigTools
                     for (var iRow = 4; iRow < pDT.Rows.Count; iRow++)
                     {
                         if (isMap)
-                            sw.Write("\"{0}\"", pDT.Rows[iRow].ItemArray[0]);
+                            sw.Write("  \"{0}\":", pDT.Rows[iRow].ItemArray[0]);
                         sw.WriteLine(JsonDataBegin);
                         for (var iCol = 0; iCol < pDT.Columns.Count; iCol++)
                         {
@@ -42,7 +39,7 @@ namespace ConfigTools
 
                             if (iCol != 0)
                                 sw.WriteLine(",");
-                            sw.WriteLine("    \"{0}\":", pTableMeta.Fields[iCol].mFieldName);
+                            sw.Write("    \"{0}\":", pTableMeta.Fields[iCol].mFieldName);
                             var _D = pDT.Rows[iRow].ItemArray[iCol].ToString();
                             if (pTableMeta.Fields[iCol].mTypeName == "int")
                                 sw.Write(ParseInt(_D));
@@ -65,10 +62,12 @@ namespace ConfigTools
                             if (pTableMeta.Fields[iCol].mTypeName == "string+")
                                 sw.Write(ParseStringList(_D));
                         }
+                        sw.WriteLine();
                         sw.Write(JsonDataEnd);
                         if (iRow != pDT.Rows.Count - 1)
-                            sw.Write(",");
-                        sw.WriteLine();
+                            sw.WriteLine(",");
+                        else
+                            sw.WriteLine();
                     }
 
                     sw.WriteLine(isMap ? "  }" : "  ]");
