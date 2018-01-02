@@ -14,7 +14,7 @@
 
 
 # 表结构示例
-|表的ID 有此ID会生成Map结构 ID大小写无关|文字描述|服务器数据|浮点数据|整型数组|字符串数组|bool值|
+|表ID,大小写无关,不存在则会生成List结构|文字描述|服务器数据|浮点数据|整型数组|字符串数组|bool值|
 |-------| --------| ------- | ------ | ------- | -------| ------- | 
 |id|name|serverdata|floatdata|intarray|stringlist|booldata|
 |int	|string	|int	|float+	|int+|	string+	|bool|
