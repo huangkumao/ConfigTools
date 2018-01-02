@@ -58,7 +58,8 @@ namespace ConfigTools
     {
         public string TableName;
 
-        public string ClassName => "Cfg" + TableName;
+        public string ClassName => "Cfg" + TableName; 
+        public string DataName => TableName + "Data";
 
         public List<TableField> Fields = new List<TableField>(8);
 

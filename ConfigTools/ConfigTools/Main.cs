@@ -119,7 +119,7 @@ namespace ConfigTools
         {
             if (cbGenCode.Checked)
             {
-                sCanExportCode = false;
+                sCanExportCode = true;
                 rbCSCode.Enabled = true;
                 rbTSCode.Enabled = true;
                 if (sExportCodeType == ExportCodeType.CSharp)
@@ -129,7 +129,7 @@ namespace ConfigTools
             }
             else
             {
-                sCanExportCode = true;
+                sCanExportCode = false;
                 rbCSCode.Enabled = false;
                 rbTSCode.Enabled = false;
             }

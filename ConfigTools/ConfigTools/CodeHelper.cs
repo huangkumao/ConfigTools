@@ -42,7 +42,38 @@ namespace ConfigTools
 
         private static void GenTSCode(TableMeta pTableMeta, string pPath, ExportCfgType pCfgType)
         {
+            string _Path = Path.Combine(pPath, pTableMeta.ClassName + ".ts");
+            using (FileStream fs = new FileStream(_Path, FileMode.Create, FileAccess.Write))
+            {
+                using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
+                {
+                    sw.WriteLine("/*");
+                    sw.WriteLine("* 此类由ConfigTools自动生成. https://github.com/huangkumao/ConfigTools");
+                    sw.WriteLine("*/");
+                    sw.WriteLine("namespace Configs");
+                    sw.WriteLine("{");
+                    sw.WriteLine("    export class {0}", pTableMeta.ClassName);
+                    sw.WriteLine("    {");
+                    if (pTableMeta.CheckTypeIsMap())
+                        sw.WriteLine("        public mDataMap:{{ [key:string] :{0} }};", pTableMeta.DataName);
+                    else
+                        sw.WriteLine("        public mDataList:{0}[];", pTableMeta.DataName);
+                    sw.WriteLine("    }");
+                    sw.WriteLine();
+                    sw.WriteLine("    export class {0}", pTableMeta.DataName);
+                    sw.WriteLine("    {");
+                    foreach (var field in pTableMeta.Fields)
+                    {
+                        if (!field.IsExportField(pCfgType))
+                            continue;
 
+                        sw.WriteLine("        " + field.mComment);
+                        sw.WriteLine("        public {0}:{1};", field.mFieldName, field.GetFieldTypeName(ExportCodeType.TypeScript));
+                    }
+                    sw.WriteLine("    }");
+                    sw.WriteLine("}");
+                }
+            }
         }
     }
 }
