@@ -4,20 +4,30 @@ namespace ConfigTools
 {
     public class TableField
     {
-        public static string[] TypeScript_TypeNames = {"number", "number", "string", "boolean", "number[]", "number[]", "string[]"};
-        public static string[] CSharp_TypeNames = { "int", "float", "string", "bool", "List<int>", "List<float>", "List<string>" };
+        public static string[] TypeScript_TypeNames =
+        {
+            "number", "number", "string", "boolean", "number[]", "number[]",
+            "string[]"
+        };
 
-        public string mFieldName;
-        public string mTypeName;
+        public static string[] CSharp_TypeNames =
+        {
+            "int", "float", "string", "bool", "List<int>", "List<float>",
+            "List<string>"
+        };
+
         public string mComment;
         public string mExportType;
 
+        public string mFieldName;
+        public string mTypeName;
+
         public string GetFieldTypeName(ExportCodeType pType)
         {
-            TableFieldType _type = TableFieldType.TFT_Int;
+            var _type = TableFieldType.TFT_Int;
             if (mTypeName == "int")
                 _type = TableFieldType.TFT_Int;
-            else if(mTypeName == "float")
+            else if (mTypeName == "float")
                 _type = TableFieldType.TFT_Float;
             else if (mTypeName == "string")
                 _type = TableFieldType.TFT_String;
@@ -32,9 +42,9 @@ namespace ConfigTools
 
 
             if (pType == ExportCodeType.CSharp)
-                return CSharp_TypeNames[(int)_type];
+                return CSharp_TypeNames[(int) _type];
             if (pType == ExportCodeType.TypeScript)
-                return TypeScript_TypeNames[(int)_type];
+                return TypeScript_TypeNames[(int) _type];
 
             return null;
         }
@@ -44,10 +54,10 @@ namespace ConfigTools
             if (mExportType == "all")
                 return true;
 
-            if (pExpType == ExportCfgType.Client && mExportType == "client")
+            if ((pExpType == ExportCfgType.Client) && (mExportType == "client"))
                 return true;
 
-            if (pExpType == ExportCfgType.Server && mExportType == "server")
+            if ((pExpType == ExportCfgType.Server) && (mExportType == "server"))
                 return true;
 
             return false;
@@ -56,12 +66,11 @@ namespace ConfigTools
 
     public class TableMeta
     {
+        public List<TableField> Fields = new List<TableField>(8);
         public string TableName;
 
-        public string ClassName => "Cfg" + TableName; 
+        public string ClassName => "Cfg" + TableName;
         public string DataName => TableName + "Data";
-
-        public List<TableField> Fields = new List<TableField>(8);
 
         public bool CheckTypeIsMap()
         {

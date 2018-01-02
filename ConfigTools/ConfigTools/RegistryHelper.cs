@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 
@@ -9,20 +6,20 @@ namespace ConfigTools
 {
     public class RegistryData
     {
-        //Excel路径
-        public string mExcelPath = @"c:\";
-        //代码路径
-        public string mCodePath = @"c:\";
-        //配置路径
-        public string mCfgPath = @"c:\";
-        //导出代码类型
-        public ExportCodeType mExportCodeType = ExportCodeType.TypeScript;
-        //导出配置类型
-        public ExportCfgType mExportCfgType = ExportCfgType.Client;
         //是否导出代码
         public static bool mCanExportCode = true;
         //是否导出配置
         public static bool mCanExportCfg = true;
+        //配置路径
+        public string mCfgPath = @"c:\";
+        //代码路径
+        public string mCodePath = @"c:\";
+        //Excel路径
+        public string mExcelPath = @"c:\";
+        //导出配置类型
+        public ExportCfgType mExportCfgType = ExportCfgType.Client;
+        //导出代码类型
+        public ExportCodeType mExportCodeType = ExportCodeType.TypeScript;
 
         public void GetData()
         {
@@ -78,11 +75,9 @@ namespace ConfigTools
         public static byte[] GetRegistryData(string pSubkey, string pName)
         {
             byte[] registData = null;
-            RegistryKey myKey = Registry.CurrentUser.OpenSubKey(pSubkey, true);
+            var myKey = Registry.CurrentUser.OpenSubKey(pSubkey, true);
             if (myKey != null)
-            {
-                registData = (byte[])myKey.GetValue(pName);
-            }
+                registData = (byte[]) myKey.GetValue(pName);
 
             return registData;
         }
@@ -90,7 +85,7 @@ namespace ConfigTools
         //向注册表中写数据
         public static void SetRegistryData(string pSubkey, string pName, byte[] pValue)
         {
-            RegistryKey myKey = Registry.CurrentUser.CreateSubKey(pSubkey);
+            var myKey = Registry.CurrentUser.CreateSubKey(pSubkey);
             myKey?.SetValue(pName, pValue);
         }
     }

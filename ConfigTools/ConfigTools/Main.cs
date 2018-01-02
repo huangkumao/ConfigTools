@@ -1,13 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ConfigTools
@@ -76,7 +68,7 @@ namespace ConfigTools
         //选择Excel文件目录
         private void btnExcelPath_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog _fbd = new FolderBrowserDialog {Description = "选择Excel文件目录"};
+            var _fbd = new FolderBrowserDialog {Description = "选择Excel文件目录"};
             if (_fbd.ShowDialog() == DialogResult.OK)
             {
                 sExcelPath = _fbd.SelectedPath;
@@ -88,7 +80,7 @@ namespace ConfigTools
         //选择代码目录
         private void btnCodePath_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog _fbd = new FolderBrowserDialog {Description = "选择代码目录"};
+            var _fbd = new FolderBrowserDialog {Description = "选择代码目录"};
             if (_fbd.ShowDialog() == DialogResult.OK)
             {
                 sCodePath = _fbd.SelectedPath;
@@ -99,7 +91,7 @@ namespace ConfigTools
         //选择配置表目录
         private void btnCfgPath_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog _fbd = new FolderBrowserDialog {Description = "选择配置表目录"};
+            var _fbd = new FolderBrowserDialog {Description = "选择配置表目录"};
             if (_fbd.ShowDialog() == DialogResult.OK)
             {
                 sCfgPath = _fbd.SelectedPath;
@@ -147,7 +139,6 @@ namespace ConfigTools
                     rbClient.Checked = true;
                 else
                     rbServer.Checked = true;
-
             }
             else
             {
@@ -188,35 +179,29 @@ namespace ConfigTools
         //全部选择
         private void btnAllCheck_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < clbCfgFiles.Items.Count; i++)
-            {
+            for (var i = 0; i < clbCfgFiles.Items.Count; i++)
                 clbCfgFiles.SetItemChecked(i, true);
-            }
         }
 
         //全部取消
         private void btnAllUncheck_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < clbCfgFiles.Items.Count; i++)
-            {
+            for (var i = 0; i < clbCfgFiles.Items.Count; i++)
                 clbCfgFiles.SetItemChecked(i, false);
-            }
         }
 
         //刷新Excel列表
         private void RefreshExcels()
         {
             clbCfgFiles.Items.Clear();
-            string _Path = mExcelPath.Text;
+            var _Path = mExcelPath.Text;
             FileHelper.GetExcelFiles(_Path, sExcelFileList);
             foreach (var excelFileInfo in sExcelFileList)
-            {
                 clbCfgFiles.Items.Add(new ExcelFileInfo
                 {
                     Name = excelFileInfo.Name,
                     Path = excelFileInfo.Path
                 }, CheckState.Unchecked);
-            }
 
             RefreshAllPaths();
         }
@@ -234,7 +219,7 @@ namespace ConfigTools
         {
             ShowInfo();
 
-            for (int i = 0; i < clbCfgFiles.Items.Count; i++)
+            for (var i = 0; i < clbCfgFiles.Items.Count; i++)
             {
                 if (clbCfgFiles.GetItemCheckState(i) != CheckState.Checked)
                     continue;
@@ -246,23 +231,19 @@ namespace ConfigTools
 
                 //生成代码
                 if (sCanExportCode)
-                {
                     try
                     {
                         AddLog($"开始生成[ {meta.TableName} ]代码");
                         CodeHelper.GenCode(meta, sCodePath, sExportCodeType, sExportCfgType);
                         AddLog($"生成[ {meta.TableName} ]代码成功");
                     }
-                    catch(Exception exp)
+                    catch (Exception exp)
                     {
                         AddLog($"生成[{meta.TableName}]代码出现异常 => {exp.Message}");
                     }
-                    
-                }
 
                 //生成配置
                 if (sCanExportCfg)
-                {
                     try
                     {
                         AddLog($"开始生成[ {meta.TableName} ]配置");
@@ -273,8 +254,7 @@ namespace ConfigTools
                     {
                         AddLog($"生成[{meta.TableName}]配置出现异常 => {exp.Message}");
                     }
-                }
-                
+
                 AddLog("");
             }
             RegistryHelper.SaveData();
@@ -282,7 +262,7 @@ namespace ConfigTools
 
         public void ShowInfo()
         {
-            AddLog("",false);
+            AddLog("", false);
             AddLog($"是否导出配置 [{sCanExportCfg}]");
             AddLog($"配置类型 [{sExportCfgType}]");
             AddLog($"是否导出代码 [{sCanExportCode}]");

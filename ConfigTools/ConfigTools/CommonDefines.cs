@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ConfigTools
+﻿namespace ConfigTools
 {
     //字段类型
     public enum TableFieldType
@@ -15,14 +9,14 @@ namespace ConfigTools
         TFT_Bool = 3,
         TFT_IntList = 4,
         TFT_FloatList = 5,
-        TFT_StringList = 6,
+        TFT_StringList = 6
     }
 
     //导出配置类型
     public enum ExportCfgType
     {
         Client, //仅客户端
-        Server  //仅服务器
+        Server //仅服务器
     }
 
     //导出代码类型

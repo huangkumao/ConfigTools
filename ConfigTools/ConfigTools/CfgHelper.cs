@@ -1,5 +1,4 @@
-﻿
-using System.Data;
+﻿using System.Data;
 using System.IO;
 using System.Text;
 
@@ -43,23 +42,17 @@ namespace ConfigTools
                             var _D = pDT.Rows[iRow].ItemArray[iCol].ToString();
                             if (pTableMeta.Fields[iCol].mTypeName == "int")
                                 sw.Write(ParseInt(_D));
-                            else
-                            if (pTableMeta.Fields[iCol].mTypeName == "float")
+                            else if (pTableMeta.Fields[iCol].mTypeName == "float")
                                 sw.Write(ParseFloat(_D));
-                            else
-                            if (pTableMeta.Fields[iCol].mTypeName == "string")
+                            else if (pTableMeta.Fields[iCol].mTypeName == "string")
                                 sw.Write(ParseString(_D));
-                            else
-                            if (pTableMeta.Fields[iCol].mTypeName == "bool")
+                            else if (pTableMeta.Fields[iCol].mTypeName == "bool")
                                 sw.Write(ParseBool(_D));
-                            else
-                            if (pTableMeta.Fields[iCol].mTypeName == "int+")
+                            else if (pTableMeta.Fields[iCol].mTypeName == "int+")
                                 sw.Write(ParseIntList(_D));
-                            else
-                            if (pTableMeta.Fields[iCol].mTypeName == "float+")
+                            else if (pTableMeta.Fields[iCol].mTypeName == "float+")
                                 sw.Write(ParseFloatList(_D));
-                            else
-                            if (pTableMeta.Fields[iCol].mTypeName == "string+")
+                            else if (pTableMeta.Fields[iCol].mTypeName == "string+")
                                 sw.Write(ParseStringList(_D));
                         }
                         sw.WriteLine();
@@ -135,26 +128,20 @@ namespace ConfigTools
 
         public static string ParseStringList(object pObj)
         {
-            string strData = "[\r\n";
-            string strTemp = pObj.ToString().Replace("\n", "");
+            var strData = "[\r\n";
+            var strTemp = pObj.ToString().Replace("\n", "");
             if (strTemp.Trim().Length <= 0)
-            {
                 return "null";
-            }
 
-            string[] strArray = strTemp.Split(';');
-            for (int i = 0; i < strArray.Length; ++i)
-            {
+            var strArray = strTemp.Split(';');
+            for (var i = 0; i < strArray.Length; ++i)
                 if (strArray[i].Trim().Length > 0)
                 {
                     if (i != 0)
-                    {
                         strData += ",\r\n";
-                    }
 
                     strData += "            \"" + strArray[i] + "\"";
                 }
-            }
 
             strData += "\r\n         ]";
             return strData;
