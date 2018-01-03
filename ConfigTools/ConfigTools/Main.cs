@@ -217,6 +217,7 @@ namespace ConfigTools
         //生成按钮
         private void btnGen_Click(object sender, EventArgs e)
         {
+            RefreshAllPaths();
             ShowInfo();
 
             for (var i = 0; i < clbCfgFiles.Items.Count; i++)
@@ -263,6 +264,8 @@ namespace ConfigTools
         public void ShowInfo()
         {
             AddLog("", false);
+            AddLog($"配置输入路径: [{sCfgPath}]");
+            AddLog($"代码输出路径: [{sCodePath}]");
             AddLog($"是否导出配置 [{sCanExportCfg}]");
             AddLog($"配置类型 [{sExportCfgType}]");
             AddLog($"是否导出代码 [{sCanExportCode}]");
