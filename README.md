@@ -22,3 +22,5 @@
 |1|	这是id1|	1|	1.1|	1|	s1|	0|
 |2|	这是id2|	2|	2.1;2.2|	1;2|	s1;s2	|1|
 |3|	这是id3|	3|	3.1;3.2;3.3|	1;2;3|	s1;s2;s3	|0|
+
+![Image text](https://github.com/huangkumao/ConfigTools/blob/master/ConfigTools.png)
