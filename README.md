@@ -12,6 +12,8 @@
 
 5: 可视化UI操作.
 
+6: 可以非常方便的修改和扩展功能以符合自己的实际项目需求.
+
 
 # 表结构示例
 |表ID大小写无关,没有生成List,有生成Map|文字描述|服务器数据|浮点数据|整型数组|字符串数组|bool值|
@@ -23,7 +25,8 @@
 |2|	这是id2|	2|	2.1;2.2|	1;2|	s1;s2	|1|
 |3|	这是id3|	3|	3.1;3.2;3.3|	1;2;3|	s1;s2;s3	|0|
 
-//两种格式Sample 
+//两种格式Sample 具体Excel格式可以根据这两个文件
+
 https://github.com/huangkumao/ConfigTools/blob/master/Samples/Configs/ListSample.xlsx
 
 https://github.com/huangkumao/ConfigTools/blob/master/Samples/Configs/MapSample.xlsx
