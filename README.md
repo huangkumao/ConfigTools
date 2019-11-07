@@ -14,7 +14,7 @@
 
 
 # 表结构示例
-|表ID,大小写无关,不存在则会生成List结构|文字描述|服务器数据|浮点数据|整型数组|字符串数组|bool值|
+|表ID大小写无关,没有生成List,有生成Map|文字描述|服务器数据|浮点数据|整型数组|字符串数组|bool值|
 |-------| --------| ------- | ------ | ------- | -------| ------- | 
 |id|name|serverdata|floatdata|intarray|stringlist|booldata|
 |int	|string	|int	|float+	|int+|	string+	|bool|
@@ -23,4 +23,11 @@
 |2|	这是id2|	2|	2.1;2.2|	1;2|	s1;s2	|1|
 |3|	这是id3|	3|	3.1;3.2;3.3|	1;2;3|	s1;s2;s3	|0|
 
+//两种格式Sample 
+https://github.com/huangkumao/ConfigTools/blob/master/Samples/Configs/ListSample.xlsx
+
+https://github.com/huangkumao/ConfigTools/blob/master/Samples/Configs/MapSample.xlsx
+
+
 ![Image text](https://github.com/huangkumao/ConfigTools/blob/master/ConfigTools.png)
+
