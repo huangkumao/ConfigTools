@@ -27,7 +27,7 @@ namespace ConfigTools
                     sw.WriteLine(JsonHead);
                     sw.WriteLine(isMap ? JsonDataName_1 : JsonDataName_2);
 
-                    for (var iRow = 4; iRow < pDT.Rows.Count; iRow++)
+                    for (var iRow = 5; iRow < pDT.Rows.Count; iRow++)
                     {
                         if (isMap)
                             sw.Write("  \"{0}\":", pDT.Rows[iRow].ItemArray[0]);
