@@ -16,6 +16,7 @@ namespace ConfigTools
             "List<string>"
         };
 
+        public string mSpostil;
         public string mComment;
         public string mExportType;
 
@@ -69,7 +70,7 @@ namespace ConfigTools
         public List<TableField> Fields = new List<TableField>(8);
         public string TableName;
 
-        public string ClassName => "Cfg" + TableName;
+        public string ClassName => TableName;
         public string DataName => TableName + "Data";
 
         public bool CheckTypeIsMap()

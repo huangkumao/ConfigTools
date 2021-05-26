@@ -20,6 +20,8 @@ namespace ConfigTools
         public static bool sCanExportCode = true;
         //是否导出配置
         public static bool sCanExportCfg = true;
+        //是否压缩配置
+        public static bool sNeedCom = false;
 
         public static List<ExcelFileInfo> sExcelFileList = new List<ExcelFileInfo>(64);
 
@@ -279,6 +281,18 @@ namespace ConfigTools
                 textLog.AppendText(pLog + "\r\n");
             else
                 textLog.Text = pLog;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (NeedCom.Checked)
+            {
+                sNeedCom = true;
+            }
+            else
+            {
+                sNeedCom = false;
+            }
         }
     }
 }

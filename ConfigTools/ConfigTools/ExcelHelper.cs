@@ -8,10 +8,11 @@ namespace ConfigTools
 {
     public class ExcelHelper
     {
-        public static int sCommentRow = 0; //字段注释 0
-        public static int sFieldRow = 1; //字段名字 1
-        public static int sTypeRow = 2; //字段类型 2
-        public static int sExportRow = 3; //导出类型 3
+        public static int sPostilRow = 0;//批注
+        public static int sCommentRow = 1; //字段注释 0
+        public static int sFieldRow = 2; //字段名字 1
+        public static int sTypeRow = 3; //字段类型 2
+        public static int sExportRow = 4; //导出类型 3
 
         public static DataTable ImportExcelFile(string filePath)
         {
@@ -36,28 +37,49 @@ namespace ConfigTools
             for (int j = row0.FirstCellNum; j < row0.LastCellNum; j++)
                 dt.Columns.Add(row0.GetCell(j).ToString());
 
+            bool NeedComment = true;
+            DataRow comDR = null;
             while (rows.MoveNext())
             {
                 IRow row = (XSSFRow) rows.Current;
                 var dr = dt.NewRow();
+                if (NeedComment)
+                    comDR = dt.NewRow();
 
                 for (var i = 0; i < row.LastCellNum; i++)
                 {
                     var cell = row.GetCell(i);
                     if (cell == null)
+                    {
                         dr[i] = null;
+                        if (NeedComment)
+                            comDR[i] = "";
+                    }
                     else
+                    {
                         dr[i] = cell.ToString();
+                        if (NeedComment)
+                        {
+                            if(cell.CellComment != null)
+                                comDR[i] = cell.CellComment.String;
+                            else
+                                comDR[i] = "";
+                        }
+                    }
                 }
+
+                if (NeedComment)
+                    dt.Rows.Add(comDR);
                 dt.Rows.Add(dr);
+                NeedComment = false;
             }
 
-            for (var i = 0; i < dt.Rows.Count; i++)
-            {
-                for (var j = 0; j < dt.Columns.Count; j++)
-                    Console.Write(@"|" + dt.Rows[i].ItemArray[j]);
-                Console.WriteLine();
-            }
+//            for (var i = 0; i < dt.Rows.Count; i++)
+//            {
+//                for (var j = 0; j < dt.Columns.Count; j++)
+//                    Console.Write(@"|" + dt.Rows[i].ItemArray[j]);
+//                Console.WriteLine();
+//            }
 
             return dt;
         }
@@ -65,14 +87,12 @@ namespace ConfigTools
         public static TableMeta ParseTableMeta(string pFileName, DataTable pDT, ExportCfgType pExpType)
         {
             var meta = new TableMeta {TableName = pFileName};
-            //字段注释 0
-            //字段名字 1
-            //字段类型 2
-            //导出类型 3
+
             for (var i = 0; i < pDT.Columns.Count; i++)
             {
                 var field = new TableField
                 {
+                    mSpostil = pDT.Rows[sPostilRow].ItemArray[i] + "",
                     mComment = @"//" + pDT.Rows[sCommentRow].ItemArray[i],
                     mFieldName = pDT.Rows[sFieldRow].ItemArray[i].ToString(),
                     mTypeName = pDT.Rows[sTypeRow].ItemArray[i].ToString(),

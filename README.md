@@ -1,6 +1,10 @@
 # ConfigTools
 把Excel配置表导出成Json格式, 可供服务器,客户端(Unity,Laya)使用
 
+# Update
+1: 增加了压缩Json选项
+2: 增加了导出批注功能
+
 # 特性
 1: 支持生成两种代码 C#和TypeScript.
 
@@ -17,7 +21,7 @@
 
 # 表结构示例
 |表ID大小写无关,没有生成List,有生成Map|文字描述|服务器数据|浮点数据|整型数组|字符串数组|bool值|
-|-------| --------| ------- | ------ | ------- | -------| ------- | 
+|-------| --------| ------- | ------ | ------- | -------| ------- |
 |id|name|serverdata|floatdata|intarray|stringlist|booldata|
 |int	|string	|int	|float+	|int+|	string+	|bool|
 |all	|client|	server	|all|	all|	all	|all|

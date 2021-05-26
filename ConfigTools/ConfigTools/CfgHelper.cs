@@ -17,11 +17,12 @@ namespace ConfigTools
 
         public static void GenCfg(DataTable pDT, string pPath, TableMeta pTableMeta, ExportCfgType pCfgType)
         {
+            UTF8Encoding utf8 = new UTF8Encoding(false);
             var _Path = Path.Combine(pPath, pTableMeta.ClassName + ".json");
             var isMap = pTableMeta.CheckTypeIsMap(); //只有第一个字段是"ID"才会以Map形式保存
             using (var fs = new FileStream(_Path, FileMode.Create, FileAccess.Write))
             {
-                using (var sw = new StreamWriter(fs, Encoding.UTF8))
+                using (var sw = new StreamWriter(fs, utf8))
                 {
                     sw.WriteLine(JsonHead);
                     sw.WriteLine(isMap ? JsonDataName_1 : JsonDataName_2);
@@ -66,6 +67,14 @@ namespace ConfigTools
                     sw.WriteLine(isMap ? "  }" : "  ]");
                     sw.WriteLine(JsonTail);
                 }
+            }
+
+            //是否压缩
+            if (Main.sNeedCom)
+            {
+                var _AllCon = File.ReadAllText(_Path);
+                _AllCon = _AllCon.Trim().Replace(" ", "").Replace("\n", "").Replace("\r", "");
+                File.WriteAllText(_Path, _AllCon);
             }
         }
 
