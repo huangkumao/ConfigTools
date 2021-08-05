@@ -41,3 +41,6 @@ https://github.com/huangkumao/ConfigTools/blob/master/Samples/Configs/MapSample.
 
 ![Image text](https://github.com/huangkumao/ConfigTools/blob/master/ConfigTools.png)
 
+
+## 推荐项目
+- [JEngine](https://github.com/JasonXuDeveloper/JEngine) - JEngine是针对Unity开发者设计的开箱即用的框架，封装了强大的功能，小白也能快速上手，轻松制作可以热更新的游戏
