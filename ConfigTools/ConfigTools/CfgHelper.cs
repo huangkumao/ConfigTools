@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.IO;
 using System.Text;
 
@@ -41,6 +42,8 @@ namespace ConfigTools
                                 sw.WriteLine(",");
                             sw.Write("    \"{0}\":", pTableMeta.Fields[iCol].mFieldName);
                             var _D = pDT.Rows[iRow].ItemArray[iCol].ToString();
+                            if (iCol == 0 && string.IsNullOrWhiteSpace(_D))
+                                throw new Exception("ID cant be null");
                             if (pTableMeta.Fields[iCol].mTypeName == "int")
                                 sw.Write(ParseInt(_D));
                             else if (pTableMeta.Fields[iCol].mTypeName == "float")
@@ -78,33 +81,40 @@ namespace ConfigTools
             }
         }
 
-        public static string ParseInt(object pObj)
+        public static string ParseInt(string pData)
         {
-            return pObj.ToString();
+            if (string.IsNullOrWhiteSpace(pData))
+                return "0";
+            return pData;
         }
 
-        public static string ParseFloat(object pObj)
+        public static string ParseFloat(string pData)
         {
-            return pObj.ToString();
+            if (string.IsNullOrWhiteSpace(pData))
+                return "0.0";
+            return pData;
         }
 
-        public static string ParseString(object pObj)
+        public static string ParseString(string pData)
         {
-            return $"\"{pObj}\"";
+            return $"\"{pData}\"";
         }
 
-        public static string ParseBool(object pObj)
+        public static string ParseBool(string pData)
         {
-            if (pObj.ToString() == "0")
+            if (string.IsNullOrWhiteSpace(pData))
+                return "false";
+
+            if (pData == "0")
                 return "false";
             return "true";
         }
 
-        public static string ParseIntList(object pObj)
+        public static string ParseIntList(string pData)
         {
-            var strTemp = pObj.ToString().Replace("\n", "");
+            var strTemp = pData.ToString().Replace("\n", "");
             if (strTemp.Trim().Length <= 0)
-                return "null";
+                return "[]";
 
             var strData = "[\r\n";
             strData += "            ";
@@ -130,17 +140,17 @@ namespace ConfigTools
             return strData;
         }
 
-        public static string ParseFloatList(object pObj)
+        public static string ParseFloatList(string pData)
         {
-            return ParseIntList(pObj);
+            return ParseIntList(pData);
         }
 
-        public static string ParseStringList(object pObj)
+        public static string ParseStringList(string pData)
         {
             var strData = "[\r\n";
-            var strTemp = pObj.ToString().Replace("\n", "");
+            var strTemp = pData.ToString().Replace("\n", "");
             if (strTemp.Trim().Length <= 0)
-                return "null";
+                return "[]";
 
             var strArray = strTemp.Split(';');
             for (var i = 0; i < strArray.Length; ++i)

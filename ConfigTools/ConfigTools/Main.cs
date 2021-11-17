@@ -256,6 +256,7 @@ namespace ConfigTools
                     catch (Exception exp)
                     {
                         AddLog($"生成[{meta.TableName}]配置出现异常 => {exp.Message}");
+                        return;
                     }
 
                 AddLog("");
