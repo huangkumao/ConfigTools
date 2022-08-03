@@ -19,7 +19,7 @@ namespace ConfigTools
             IWorkbook hssfworkbook;
             try
             {
-                using (var file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                using (var file = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 {
                     hssfworkbook = new XSSFWorkbook(file);
                 }
