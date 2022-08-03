@@ -30,7 +30,13 @@ namespace ConfigTools
                     sw.WriteLine("    public class {0}", pTableMeta.ClassName);
                     sw.WriteLine("    {");
                     if (pTableMeta.CheckTypeIsMap())
+                    {
                         sw.WriteLine("        public Dictionary<string, {0}> mDataMap;", pTableMeta.DataName);
+                        sw.WriteLine("        public {0} GetData(int pID)", pTableMeta.DataName);
+                        sw.WriteLine("        {");
+                        sw.WriteLine("            return mDataMap[pID.ToString()];");
+                        sw.WriteLine("        }");
+                    }
                     else
                         sw.WriteLine("        public List<{0}> mDataList;", pTableMeta.DataName);
                     sw.WriteLine("    }");
